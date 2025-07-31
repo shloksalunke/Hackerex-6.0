@@ -8,7 +8,4 @@ __pycache__/
 # Local data and indexes
 policy_document.pdf
 faiss_index/
-
-# IDE files
-.vscode/
-.idea/
+temp_document.pdf

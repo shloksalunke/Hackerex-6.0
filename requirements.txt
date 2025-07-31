@@ -13,6 +13,6 @@ tenacity
 langchain-huggingface
 langchain-unstructured
 
-# --- Lighter dependencies for PDF parsing ---
+# Lighter dependencies for PDF parsing
 unstructured
 pypdf
