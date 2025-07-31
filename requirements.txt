@@ -1,0 +1,14 @@
+fastapi
+uvicorn[standard]
+pydantic-settings
+python-dotenv
+requests
+langchain
+langchain-community
+faiss-cpu
+sentence-transformers
+mistralai
+cachetools
+tenacity
+unstructured[local-inference]
+pypdf
