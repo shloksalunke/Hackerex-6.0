@@ -20,7 +20,6 @@ class QueryProcessor:
             raise ValueError("Mistral API key is required.")
         self.client = MistralClient(api_key=api_key)
         self.embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-        # Cache for vector stores, keyed by document URL
         self.vectorstore_cache = LRUCache(maxsize=10)
 
     def _create_vectorstore_from_url(self, doc_url: str) -> FAISS:
@@ -28,7 +27,6 @@ class QueryProcessor:
         response = requests.get(doc_url, timeout=60)
         response.raise_for_status()
         
-        # Use a temporary file to handle the document content
         with open("temp_document.pdf", "wb") as f:
             f.write(response.content)
         
@@ -45,20 +43,16 @@ class QueryProcessor:
             print(f"✅ Vector store created for '{doc_url}'. Chunks: {len(docs)}")
             return vectorstore
         finally:
-            # Clean up the temporary file
             if os.path.exists("temp_document.pdf"):
                 os.remove("temp_document.pdf")
 
     def get_or_create_vectorstore(self, doc_url: str) -> FAISS:
-        """
-        The core logic: gets a vector store from cache if available,
-        otherwise creates it on the fly. This handles UNKNOWN documents.
-        """
+        """Gets a vector store from cache or creates it on the fly."""
         if doc_url in self.vectorstore_cache:
             print(f"✅ Cache hit for document: {doc_url}")
             return self.vectorstore_cache[doc_url]
         
-        print(f"⏳ Cache miss for UNKNOWN document: {doc_url}. Processing on the fly...")
+        print(f"⏳ Cache miss for document: {doc_url}. Processing on the fly...")
         vectorstore = self._create_vectorstore_from_url(doc_url)
         self.vectorstore_cache[doc_url] = vectorstore
         return vectorstore
@@ -89,11 +83,9 @@ ANSWER:
     def get_answers(self, doc_url: str, questions: list[str]) -> list[str]:
         """Main public method that drives the process for any document."""
         try:
-            # This one line makes the system robust for any document
             vectorstore = self.get_or_create_vectorstore(doc_url)
             
             with ThreadPoolExecutor(max_workers=10) as executor:
-                # Pass the dynamically acquired vectorstore to each thread
                 answers = list(executor.map(lambda q: self._get_single_answer(q, vectorstore), questions))
             return answers
         except Exception as e:
