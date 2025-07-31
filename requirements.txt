@@ -12,3 +12,5 @@ cachetools
 tenacity
 unstructured[local-inference]
 pypdf
+langchain-huggingface
+langchain-unstructured
