@@ -7,10 +7,12 @@ langchain
 langchain-community
 faiss-cpu
 sentence-transformers
-mistralai
+mistralai==0.4.2
 cachetools
 tenacity
-unstructured[local-inference]
-pypdf
 langchain-huggingface
 langchain-unstructured
+
+# --- Lighter dependencies for PDF parsing ---
+unstructured
+pypdf
