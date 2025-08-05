@@ -8,4 +8,7 @@ __pycache__/
 # Local data and indexes
 policy_document.pdf
 faiss_index/
+document_indexes/
 temp_document.pdf
+
+

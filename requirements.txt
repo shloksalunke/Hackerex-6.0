@@ -1,3 +1,4 @@
+# --- START OF FILE requirements.txt ---
 fastapi
 uvicorn[standard]
 pydantic-settings
@@ -7,12 +8,11 @@ langchain
 langchain-community
 faiss-cpu
 sentence-transformers
-mistralai==0.4.2
+mistralai
 cachetools
 tenacity
 langchain-huggingface
-langchain-unstructured
 
-# Lighter dependencies for PDF parsing
-unstructured
-pypdf
+# SPEED UPGRADE: Replaced PyPDF with the much faster PyMuPDF
+pymupdf 
+# --- END OF FILE requirements.txt ---
