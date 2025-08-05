@@ -11,4 +11,6 @@ faiss_index/
 document_indexes/
 temp_document.pdf
 
+ngrok.exe
+*.exe
 
